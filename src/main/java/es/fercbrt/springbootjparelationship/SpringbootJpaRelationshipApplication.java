@@ -27,6 +27,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         manyToOne();
         oneToMany();
+        removeAddress();
     }
 
     public void manyToOne() {
@@ -61,5 +62,14 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 
         client = clientRepository.save(client);
         System.out.println(client);
+    }
+
+    public void removeAddress () {
+        Client client = clientRepository.findById(1L).orElse(null);
+        if (client != null) {
+            client.getAddress().remove(0);
+            client = clientRepository.save(client);
+            System.out.println(client);
+        }
     }
 }
