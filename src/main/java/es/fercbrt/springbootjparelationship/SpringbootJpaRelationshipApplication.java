@@ -77,7 +77,12 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
     }
 
     public void bidirectionalOneToMany() {
-        Client client = new Client(null, "Fernando", "Calvino", null, null);
+        Client client = clientRepository.findById(1L).orElse(null);
+
+        if (client == null) {
+            client = new Client(null, "Fernando", "Calvino", null, null);
+            client = clientRepository.save(client);
+        }
 
         List<Invoice> invoices = List.of(
                 new Invoice(null, "Laptop purchase", 1000L, client),
