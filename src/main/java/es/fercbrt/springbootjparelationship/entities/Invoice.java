@@ -20,6 +20,7 @@ public class Invoice {
     private Long total;
 
     @ManyToOne
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @Override
