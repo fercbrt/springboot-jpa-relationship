@@ -1,16 +1,18 @@
 package es.fercbrt.springbootjparelationship;
 
-import es.fercbrt.springbootjparelationship.entities.Address;
-import es.fercbrt.springbootjparelationship.entities.Client;
-import es.fercbrt.springbootjparelationship.entities.Invoice;
+import es.fercbrt.springbootjparelationship.entities.*;
 import es.fercbrt.springbootjparelationship.repositories.ClientRepository;
+import es.fercbrt.springbootjparelationship.repositories.CourseRepository;
 import es.fercbrt.springbootjparelationship.repositories.InvoiceRepository;
+import es.fercbrt.springbootjparelationship.repositories.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
@@ -20,6 +22,12 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 
     @Autowired
     private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringbootJpaRelationshipApplication.class, args);
@@ -32,6 +40,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         removeAddress();
         bidirectionalOneToMany();
         removeInvoiceBidirectional();
+        manyToMany();
     }
 
     public void manyToOne() {
@@ -103,5 +112,23 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
             client = clientRepository.save(client);
             System.out.println(client);
         }
+    }
+
+    @Transactional
+    public void manyToMany() {
+
+        Student student1 = new Student(null, "Fernando", "Calvino", null);
+        Student student2 = new Student(null, "John", "Doe", null);
+
+        Course course1 = new Course(null, "Math");
+        Course course2 = new Course(null, "History");
+
+        student1.setCourses(Set.of(course1, course2));
+        student2.setCourses(Set.of(course1));
+
+        studentRepository.saveAll(Set.of(student1, student2));
+
+        System.out.println(student1);
+        System.out.println(student2);
     }
 }
