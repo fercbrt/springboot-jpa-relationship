@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 
@@ -28,6 +30,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         manyToOne();
         oneToMany();
         removeAddress();
+        bidirectionalOneToMany();
     }
 
     public void manyToOne() {
@@ -71,5 +74,20 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
             client = clientRepository.save(client);
             System.out.println(client);
         }
+    }
+
+    public void bidirectionalOneToMany() {
+        Client client = new Client(null, "Fernando", "Calvino", null, null);
+
+        List<Invoice> invoices = List.of(
+                new Invoice(null, "Laptop purchase", 1000L, client),
+                new Invoice(null, "Monitor purchase", 500L, client)
+        );
+
+        client.setInvoice(invoices);
+
+        client = clientRepository.save(client);
+
+        System.out.println(client);
     }
 }
