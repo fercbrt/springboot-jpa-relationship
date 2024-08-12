@@ -1,5 +1,6 @@
 package es.fercbrt.springbootjparelationship;
 
+import es.fercbrt.springbootjparelationship.entities.Address;
 import es.fercbrt.springbootjparelationship.entities.Client;
 import es.fercbrt.springbootjparelationship.entities.Invoice;
 import es.fercbrt.springbootjparelationship.repositories.ClientRepository;
@@ -31,7 +32,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         Client client = clientRepository.findById(1L).orElse(null);
 
         if (client == null) {
-            client = new Client(null, "Fernando", "Calvino");
+            client = new Client(null, "Fernando", "Calvino", null);
             client = clientRepository.save(client);
         }
 
@@ -39,5 +40,24 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         invoice.setClient(client);
         invoice = invoiceRepository.save(invoice);
         System.out.println(invoice);
+    }
+
+    public void oneToMany() {
+        Client client = clientRepository.findById(1L).orElse(null);
+
+        if (client == null) {
+            client = new Client(null, "Fernando", "Calvino", null);
+            client = clientRepository.save(client);
+        }
+
+        Address address1 = new Address(null, "Elmer St.", 1);
+        Address address2 = new Address(null, "Elmer St.", 2);
+        Address address3 = new Address(null, "Elmer St.", 3);
+
+        client.getAddress().add(address1);
+        client.getAddress().add(address2);
+        client.getAddress().add(address3);
+
+        client = clientRepository.save(client);
     }
 }
