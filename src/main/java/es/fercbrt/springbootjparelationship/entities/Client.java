@@ -24,6 +24,9 @@ public class Client {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> address;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Invoice> invoice;
+
     @Override
     public String toString() {
         return "Client {" +
@@ -31,6 +34,7 @@ public class Client {
                 ", name = '" + name + '\'' +
                 ", lastname = '" + lastname + '\'' +
                 ", address = " + address +
+                ", invoice = " + invoice +
                 '}';
     }
 }

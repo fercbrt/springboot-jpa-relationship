@@ -34,7 +34,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         Client client = clientRepository.findById(1L).orElse(null);
 
         if (client == null) {
-            client = new Client(null, "Fernando", "Calvino", null);
+            client = new Client(null, "Fernando", "Calvino", null, null);
             client = clientRepository.save(client);
         }
 
@@ -48,7 +48,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         Client client = clientRepository.findById(1L).orElse(null);
 
         if (client == null) {
-            client = new Client(null, "Fernando", "Calvino", null);
+            client = new Client(null, "Fernando", "Calvino", null, null);
             client = clientRepository.save(client);
         }
 
