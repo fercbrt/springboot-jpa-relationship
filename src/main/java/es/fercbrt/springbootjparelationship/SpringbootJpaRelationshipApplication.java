@@ -28,8 +28,12 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
     }
 
     public void manyToOne() {
-        Client client = new Client(null,"Fernando", "Calvino");
-        client = clientRepository.save(client);
+        Client client = clientRepository.findById(1L).orElse(null);
+
+        if (client == null) {
+            client = new Client(null, "Fernando", "Calvino");
+            client = clientRepository.save(client);
+        }
 
         Invoice invoice = new Invoice(null, "Laptop purchase", 1000L, null);
         invoice.setClient(client);
