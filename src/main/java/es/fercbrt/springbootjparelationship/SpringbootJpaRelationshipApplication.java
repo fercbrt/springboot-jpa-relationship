@@ -31,15 +31,13 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         oneToMany();
         removeAddress();
         bidirectionalOneToMany();
+        removeInvoiceBidirectional();
     }
 
     public void manyToOne() {
         Client client = clientRepository.findById(1L).orElse(null);
 
-        if (client == null) {
-            client = new Client(null, "Fernando", "Calvino", null, null);
-            client = clientRepository.save(client);
-        }
+        client = checkClient(client);
 
         Invoice invoice = new Invoice(null, "Laptop purchase", 1000L, null);
         invoice.setClient(client);
@@ -50,10 +48,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
     public void oneToMany() {
         Client client = clientRepository.findById(1L).orElse(null);
 
-        if (client == null) {
-            client = new Client(null, "Fernando", "Calvino", null, null);
-            client = clientRepository.save(client);
-        }
+        client = checkClient(client);
 
         Address address1 = new Address(null, "Elmer St.", 1);
         Address address2 = new Address(null, "Elmer St.", 2);
@@ -79,10 +74,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
     public void bidirectionalOneToMany() {
         Client client = clientRepository.findById(1L).orElse(null);
 
-        if (client == null) {
-            client = new Client(null, "Fernando", "Calvino", null, null);
-            client = clientRepository.save(client);
-        }
+        client = checkClient(client);
 
         List<Invoice> invoices = List.of(
                 new Invoice(null, "Laptop purchase", 1000L, client),
@@ -94,5 +86,22 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         client = clientRepository.save(client);
 
         System.out.println(client);
+    }
+
+    private Client checkClient(Client client) {
+        if (client == null) {
+            client = new Client(null, "Fernando", "Calvino", null, null);
+            client = clientRepository.save(client);
+        }
+        return client;
+    }
+
+    public void removeInvoiceBidirectional() {
+        Client client = clientRepository.findById(1L).orElse(null);
+        if (client != null) {
+            client.getInvoice().remove(0);
+            client = clientRepository.save(client);
+            System.out.println(client);
+        }
     }
 }
