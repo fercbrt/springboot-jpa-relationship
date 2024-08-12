@@ -41,6 +41,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
         bidirectionalOneToMany();
         removeInvoiceBidirectional();
         manyToMany();
+        removeManyToMany();
     }
 
     public void manyToOne() {
@@ -130,5 +131,15 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 
         System.out.println(student1);
         System.out.println(student2);
+    }
+
+    @Transactional
+    public void removeManyToMany() {
+        Student student = studentRepository.findById(1L).orElse(null);
+        if (student != null) {
+            student.setCourses(null);
+            studentRepository.save(student);
+            System.out.println(student);
+        }
     }
 }
