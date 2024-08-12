@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,12 +21,16 @@ public class Client {
 
     private String lastname;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> address;
+
     @Override
     public String toString() {
         return "Client {" +
                 "id = " + id +
                 ", name = '" + name + '\'' +
                 ", lastname = '" + lastname + '\'' +
+                ", address = " + address +
                 '}';
     }
 }
